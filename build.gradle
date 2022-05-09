@@ -1,0 +1,32 @@
+plugins {
+	id 'com.unascribed.nilgradle' version '1.0'
+}
+
+repositories {
+	mavenLocal()
+	maven {
+		url 'https://maven.fabricmc.net'
+		content {
+			includeGroup 'net.fabricmc'
+		}
+	}
+	maven {
+		url 'https://maven.minecraftforge.net'
+		content {
+			includeGroup 'de.oceanlabs.mcp'
+		}
+	}
+}
+
+dependencies {
+	loader 'com.unascribed:nilloader:1.0'
+
+	game nil.minecraft('1.18.2', 'client')
+}
+
+mappings {
+	work nil.mojmap('1.18.2', 'client')
+
+	target 'net.fabricmc:intermediary:1.18.2:v2'
+	target 'de.oceanlabs.mcp:mcp_config:1.18.2'
+}
