@@ -1,0 +1,11 @@
+@nilmod {
+	name: "NilTest";
+	description: "Making sure NilGradle and NilLoader work.";
+	authors: "unascribed";
+	version: "${version}";
+}
+
+entrypoints {
+	premain: "com.unascribed.niltest.NilTest";
+	client: "com.unascribed.niltest.NilTestClient";
+}
