@@ -2,12 +2,12 @@ plugins {
 	id 'com.unascribed.nilgradle' version '1.0'
 }
 
-sourceCompatibility = 8
-targetCompatibility = 8
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
-group = 'com.unascribed'
-archivesBaseName = 'NilTest'
-version = '1.0'
+group = "${project.maven_group}"
+archivesBaseName = "${project.archives_base_name}"
+version = "${project.version}+${project.minecraft_version}"
 
 repositories {
 	maven {
@@ -23,26 +23,26 @@ repositories {
 		}
 	}
 	maven {
-		url 'https://maven.minecraftforge.net'
+		url 'https://maven.quiltmc.org/repository/release'
 		content {
-			includeGroup 'de.oceanlabs.mcp'
+			includeGroup 'org.quiltmc'
 		}
 	}
 }
 
 nil {
-	id "niltest"
+	id 'aleph'
 	standalone true
 }
 
 dependencies {
-	loader 'com.unascribed:nilloader:1.0'
+	loader 'com.unascribed:nilloader:1.0.3'
 
-	game nil.minecraft('1.4.7', 'client')
+	game nil.minecraft('1.18.2', 'client')
 }
 
 mappings {
-	work nil.mcpArchive('1.4.7', '726a')
-	
-	target nil.mcpArchiveSrg('1.4.7', '726a')
+	via 'net.fabric:intermediary:1.18.2:v2'
+
+	work 'org.quiltmc:quilt-mappings:1.18.2+build.23:v2'
 }
