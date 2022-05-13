@@ -38,6 +38,6 @@ public class AlephPackProvider implements ResourcePackProvider {
 					ResourcePackSource.nameAndSource("pack.source.nilmod"))
 			);
 		}
-		Aleph.log.info("Added " + addedPacks + " packs");
+		Aleph.log.info("Added {} packs", addedPacks);
 	}
 }
