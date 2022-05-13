@@ -1,5 +1,5 @@
 plugins {
-	id 'com.unascribed.nilgradle' version '1.0'
+	id 'com.unascribed.nilgradle' version '1.2.3'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -42,7 +42,10 @@ dependencies {
 }
 
 mappings {
-	via 'net.fabric:intermediary:1.18.2:v2'
+	via 'org.quiltmc:hashed:1.18.2'
 
 	work 'org.quiltmc:quilt-mappings:1.18.2+build.23:v2'
+
+	target 'net.fabricmc:intermediary:1.18.2:v2'
+	target nil.mojmap('1.18.2', 'client')
 }

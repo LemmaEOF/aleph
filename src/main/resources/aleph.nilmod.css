@@ -6,6 +6,5 @@
 }
 
 entrypoints {
-	premain: "com.unascribed.niltest.NilTest";
-	client: "com.unascribed.niltest.NilTestClient";
+	premain: "gay.lemmaeof.aleph.Aleph";
 }
