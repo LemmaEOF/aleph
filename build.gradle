@@ -36,7 +36,7 @@ nil {
 }
 
 dependencies {
-	loader 'com.unascribed:nilloader:1.0.3'
+	loader 'com.unascribed:nilloader:1.1.5'
 
 	game nil.minecraft('1.18.2', 'client')
 }

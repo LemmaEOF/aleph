@@ -1,4 +1,4 @@
-package gay.lemmaeof.aleph;
+package gay.lemmaeof.aleph.transformer;
 
 import nilloader.api.lib.mini.MiniTransformer;
 import nilloader.api.lib.mini.PatchContext;
