@@ -10,6 +10,7 @@ archivesBaseName = "${project.archives_base_name}"
 version = "${project.version}+${project.minecraft_version}"
 
 repositories {
+	mavenCentral()
 	maven {
 		url 'https://repo.sleeping.town'
 		content {
@@ -28,6 +29,12 @@ repositories {
 			includeGroup 'org.quiltmc'
 		}
 	}
+	maven {
+		url 'https://libraries.minecraft.net'
+		content {
+			includeGroup 'com.mojang'
+		}
+	}
 }
 
 nil {
@@ -39,6 +46,8 @@ dependencies {
 	loader 'com.unascribed:nilloader:1.1.5'
 
 	game nil.minecraft('1.18.2', 'client')
+
+	implementation 'com.mojang:datafixerupper:1.0.20'
 }
 
 mappings {

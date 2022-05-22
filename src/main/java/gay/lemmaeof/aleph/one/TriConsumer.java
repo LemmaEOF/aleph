@@ -1,4 +1,4 @@
-package gay.lemmaeof.aleph;
+package gay.lemmaeof.aleph.one;
 
 @FunctionalInterface
 public interface TriConsumer<A, B, C> {

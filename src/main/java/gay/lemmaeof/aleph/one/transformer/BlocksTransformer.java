@@ -1,4 +1,4 @@
-package gay.lemmaeof.aleph.transformer;
+package gay.lemmaeof.aleph.one.transformer;
 
 import nilloader.api.lib.mini.MiniTransformer;
 import nilloader.api.lib.mini.PatchContext;
@@ -15,5 +15,6 @@ public class BlocksTransformer extends MiniTransformer {
 		ctx.add(
 				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerBlocks", "()V")
 		);
+		ctx.addFireEntrypoint("blocks");
 	}
 }

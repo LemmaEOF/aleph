@@ -4,13 +4,55 @@
 Aleph is an "invisible" library mod for [NilLoader](https://git.sleeping.town/unascribed/NilLoader) targeting primarily
 modern Minecraft versions.
 
-Current Aleph features:
+Aleph is composed of two major sections - Aleph:Null and Aleph:One. These are included in the same jar for now, but may
+be separated out in the future ~~if I figure out how to use Gradle multiprojects~~. Aleph:Null contains features that
+require **no** interaction with Aleph code, and Aleph:One contains features that require **minimal** interaction with
+Aleph code, limited to Aleph-specified entrypoints and annotations.
+
+Current Aleph:Null features:
 - **Resource pack loading** - Any nilmod (either as a jar or directory) will have its `resources/assets` and
-`resources/data` source folders loaded as resource or data packs, respectively
+`resources/data` source folders loaded as resource or data packs, respectively.
+  - A `pack.mcmeta` is not required - NilLoader will generate one from the mod's `nilmod.css`
+
+Current Aleph:One features:
+- **Auto-registration** - Simply place objects in public/static/final fields in a `Runnable` class and add them as a
+    specific entrypoint, and Aleph will automagically register them for you! The registry identifier can be set with the 
+    annotation `@RegisteredAs`, and after all contents for an entrypoint are registered, the `Runnable` for the 
+    entrypoint will be fired. This currently supports:
+  - Blocks, via the `blocks` entrypoint
+    - Block render layers annotated by `@RenderLayer`
+    - Block color providers implemented on the block
+    - Block color providers annotated by `@ConstantColor`
+    - Block color providers annotated by `@ColorProvider`
+  - Items, via the `items` entrypoint
+    - Item color providers implemented on the item
+    - Item color providers annotated with `@ConstantColor`
+    - Item color providers annotated with `@ColorProvider`
+  - Block entities, via the `blockentities` entrypoint
+    - Block entity renderers annotated by `@Renderer`
 
 ## Using Aleph
-As Aleph doesn't need to be called from other nilmods, it can just be dropped in the `nilmods` or `mods` directory in
-your Minecraft instance.
+As Aleph:Null doesn't need to be called from other nilmods, it can just be dropped in the `nilmods` or `mods` directory
+in your Minecraft instance.
+
+The annotations used for Aleph:One can be depended on in a development environment through the Gradle configuration
+below or manually included within your project's source.
+
+```groovy
+repositories {
+  maven {
+    url 'https://repo.sleeping.town'
+    content {
+      //if you already have `repo.sleeping.town` added (which you probably do), add this line!
+      includeGroup 'gay.lemmaeof'
+    }
+  }
+}
+
+dependencies {
+  implementation 'gay.lemmaeof:aleph:<VERSION>'
+}
+```
 
 ## Why To Use Aleph
 ...that's a good question.

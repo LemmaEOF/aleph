@@ -1,10 +1,11 @@
+/*noinspection ALL*/
 @nilmod {
 	name: "Aleph";
 	description: "An invisible library for Ø̲.";
 	authors: "LemmaEOF";
 	version: "${version}";
 }
-
+/*noinspection ALL*/
 entrypoints {
 	premain: "gay.lemmaeof.aleph.Aleph";
 }

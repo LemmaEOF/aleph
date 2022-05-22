@@ -1,5 +1,6 @@
-package gay.lemmaeof.aleph;
+package gay.lemmaeof.aleph.nll;
 
+import gay.lemmaeof.aleph.Aleph;
 import net.minecraft.resource.pack.ResourcePack;
 import net.minecraft.resource.pack.ResourcePackProfile;
 import net.minecraft.resource.pack.ResourcePackProvider;
