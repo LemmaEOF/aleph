@@ -60,14 +60,6 @@ mappings {
 	target nil.mojmap('1.18.2', 'client')
 }
 
-processResources {
-	inputs.property "version", version
-
-	filesMatching("aleph.nilmod.css") {
-		expand "version": version
-	}
-}
-
 task sourcesJar(type: Jar) {
 	classifier 'sources'
 
