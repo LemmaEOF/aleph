@@ -5,13 +5,6 @@ name: default
 steps:
   - name: build
     image: openjdk:17
-    commands:
-      - ./gradlew build
-      - "echo 10 most recent commits: > note.txt"
-      - "git log --pretty=tformat:%B -n10 >> note.txt"
-      - "rm build/libs/*-dev.jar"
-  - name: publish
-    image: openjdk:17
     environment:
       USER:
         from_secret: username
@@ -19,6 +12,9 @@ steps:
         from_secret: password
     commands:
       - ./gradlew publish -Ppublish-username=$USER -Ppublish-password=$PASSWORD
+      - "echo 10 most recent commits: > note.txt"
+      - "git log --pretty=tformat:%B -n10 >> note.txt"
+      - "rm build/libs/*-dev.jar"
   - name: release
     image: unascribed/drone-gitea-release
     settings:
