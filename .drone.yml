@@ -11,7 +11,7 @@ steps:
       PASSWORD:
         from_secret: password
     commands:
-      - ./gradlew publish -Ppublish-username=$USER -Ppublish-password=$PASSWORD
+      - ./gradlew publish -Ppublish-username=${USER} -Ppublish-password=${PASSWORD}
       - "echo 10 most recent commits: > note.txt"
       - "git log --pretty=tformat:%B -n10 >> note.txt"
       - "rm build/libs/*-dev.jar"
