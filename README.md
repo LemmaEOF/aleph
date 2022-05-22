@@ -1,5 +1,5 @@
 # Aleph
-*~the API lib that should have never been~*
+*\~the API lib that should have never been\~*
 
 Aleph is an "invisible" library mod for [NilLoader](https://git.sleeping.town/unascribed/NilLoader) targeting primarily
 modern Minecraft versions.
