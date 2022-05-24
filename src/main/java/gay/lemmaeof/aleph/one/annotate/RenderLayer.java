@@ -10,7 +10,8 @@ import java.lang.annotation.Target;
 @Target(FIELD)
 public @interface RenderLayer {
 	/**
-	 * Used to mark and specify a block to use a different render layer.
+	 * Used to mark and specify a block or fluid to use a different render layer.
+	 * NOTE: Fluids only support the `translucent` render layer.
 	 * @return The name of the render layer to use - `cutout`, `cutout_mipped`, `translucent`, or `tripwire`.
 	 */
 	String value();

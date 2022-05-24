@@ -1,6 +1,5 @@
 package gay.lemmaeof.aleph.one;
 
-import gay.lemmaeof.aleph.one.AutoRegistry;
 import gay.lemmaeof.aleph.one.annotate.ColorProvider;
 import gay.lemmaeof.aleph.one.annotate.ConstantColor;
 import gay.lemmaeof.aleph.one.annotate.Renderer;
@@ -14,6 +13,11 @@ import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 
 import java.lang.invoke.MethodHandle;
@@ -24,22 +28,6 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ClientAutoRegistry extends AutoRegistry {
-
-	public void registerBlockRenderLayers(Map<Block, RenderLayer> map) {
-		Map<String, RenderLayer> renderLayers = new HashMap<>();
-		renderLayers.put("cutout", RenderLayer.getCutout());
-		renderLayers.put("cutout_mipped", RenderLayer.getCutoutMipped());
-		renderLayers.put("translucent", RenderLayer.getTranslucent());
-		renderLayers.put("tripwire", RenderLayer.getTripwire());
-		eachEntrypoint("blocks",
-				(meta, holder) -> eachRegisterableField(holder, Block.class, gay.lemmaeof.aleph.one.annotate.RenderLayer.class, (f, b, ann) -> {
-					if (ann != null) {
-						if (!renderLayers.containsKey(ann.value())) throw new RuntimeException(meta.id+":"+f.getName().toLowerCase(Locale.ROOT)+" has an unknown @RenderLayer: "+ann.value());
-						map.put(b, renderLayers.get(ann.value()));
-					}
-				})
-		);
-	}
 
 	public void registerBlockColorProviders(BlockColors colors) {
 		eachEntrypoint("blocks",
@@ -59,19 +47,17 @@ public class ClientAutoRegistry extends AutoRegistry {
 		);
 	}
 
-	public void registerItemColorProviders(ItemColors colors) {
-		eachEntrypoint("items",
-				(meta, holder) -> eachRegisterableField(holder, Item.class, null, (f, i, ann) -> {
-					if (i instanceof ItemColorProvider) colors.register((ItemColorProvider)i, i);
-					ConstantColor colAnn = f.getAnnotation(ConstantColor.class);
-					if (colAnn != null) colors.register((stack, tintIndex) -> colAnn.value(), i);
-					ColorProvider colProvAnn = f.getAnnotation(ColorProvider.class);
-					if (colProvAnn != null) {
-						try {
-							colors.register((ItemColorProvider)Class.forName(colProvAnn.value()).newInstance(), i);
-						} catch (Exception e1) {
-							throw new RuntimeException(e1);
-						}
+	public void registerBlockRenderLayers(Map<Block, RenderLayer> map) {
+		Map<String, RenderLayer> renderLayers = new HashMap<>();
+		renderLayers.put("cutout", RenderLayer.getCutout());
+		renderLayers.put("cutout_mipped", RenderLayer.getCutoutMipped());
+		renderLayers.put("translucent", RenderLayer.getTranslucent());
+		renderLayers.put("tripwire", RenderLayer.getTripwire());
+		eachEntrypoint("blocks",
+				(meta, holder) -> eachRegisterableField(holder, Block.class, gay.lemmaeof.aleph.one.annotate.RenderLayer.class, (f, b, ann) -> {
+					if (ann != null) {
+						if (!renderLayers.containsKey(ann.value())) throw new RuntimeException(meta.id+":"+f.getName().toLowerCase(Locale.ROOT)+" has an unknown @RenderLayer: "+ann.value());
+						map.put(b, renderLayers.get(ann.value()));
 					}
 				})
 		);
@@ -79,7 +65,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 
 	@SuppressWarnings("unchecked")
 	public void registerBlockEntityRenderers(Map<BlockEntityType<?>, BlockEntityRendererFactory<?>> map) {
-		eachEntrypoint("blockentities",
+		eachEntrypoint("block-entities",
 				(meta, holder) -> eachRegisterableField(holder, BlockEntityType.class, Renderer.class, (f, type, ann) -> {
 					if (ann != null) {
 						try {
@@ -95,6 +81,61 @@ public class ClientAutoRegistry extends AutoRegistry {
 							});
 						} catch (Exception e) {
 							throw new RuntimeException(e);
+						}
+					}
+				})
+		);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void registerEntityRenderers(Map<EntityType<?>, EntityRendererFactory<?>> map) {
+		eachEntrypoint("entities",
+				(meta, holder) -> eachRegisterableField(holder, EntityType.class, Renderer.class, (f, type, ann) -> {
+					if (ann != null) {
+						try {
+							MethodHandle handle = MethodHandles.publicLookup().findConstructor(Class.forName(ann.value()), MethodType.methodType(void.class, EntityRendererFactory.Context.class));
+							map.put(type, berd -> {
+								try {
+									return (EntityRenderer<Entity>) handle.invoke(berd);
+								} catch (RuntimeException | Error e) {
+									throw e;
+								} catch (Throwable e) {
+									throw new RuntimeException(e);
+								}
+							});
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
+					}
+				})
+		);
+	}
+
+	public void registerFluidRenderLayers(Map<Fluid, RenderLayer> map) {
+		Map<String, RenderLayer> renderLayers = new HashMap<>();
+		renderLayers.put("translucent", RenderLayer.getTranslucent());
+		eachEntrypoint("fluids",
+				(meta, holder) -> eachRegisterableField(holder, Fluid.class, gay.lemmaeof.aleph.one.annotate.RenderLayer.class, (f, b, ann) -> {
+					if (ann != null) {
+						if (!renderLayers.containsKey(ann.value())) throw new RuntimeException(meta.id+":"+f.getName().toLowerCase(Locale.ROOT)+" has an unknown @RenderLayer: "+ann.value());
+						map.put(b, renderLayers.get(ann.value()));
+					}
+				})
+		);
+	}
+
+	public void registerItemColorProviders(ItemColors colors) {
+		eachEntrypoint("items",
+				(meta, holder) -> eachRegisterableField(holder, Item.class, null, (f, i, ann) -> {
+					if (i instanceof ItemColorProvider) colors.register((ItemColorProvider)i, i);
+					ConstantColor colAnn = f.getAnnotation(ConstantColor.class);
+					if (colAnn != null) colors.register((stack, tintIndex) -> colAnn.value(), i);
+					ColorProvider colProvAnn = f.getAnnotation(ColorProvider.class);
+					if (colProvAnn != null) {
+						try {
+							colors.register((ItemColorProvider)Class.forName(colProvAnn.value()).newInstance(), i);
+						} catch (Exception e1) {
+							throw new RuntimeException(e1);
 						}
 					}
 				})

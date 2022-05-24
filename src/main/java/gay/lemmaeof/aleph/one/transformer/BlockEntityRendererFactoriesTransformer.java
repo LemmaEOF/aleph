@@ -11,7 +11,7 @@ public class BlockEntityRendererFactoriesTransformer extends MiniTransformer {
 		ctx.jumpToLastReturn();
 		ctx.add(
 				GETSTATIC("net/minecraft/client/render/block/entity/BlockEntityRendererFactories", "FACTORIES", "()Ljava/util/Map;"),
-				INVOKESTATIC("gay/lemmaeof/aleph/ClientAutoRegistry", "registerBlockEntiyRenderers", "(Ljava/util/Map;)V")
+				INVOKESTATIC("gay/lemmaeof/aleph/ClientAutoRegistry", "registerBlockEntityRenderers", "(Ljava/util/Map;)V")
 		);
 	}
 }

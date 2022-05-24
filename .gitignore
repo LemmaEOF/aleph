@@ -25,3 +25,6 @@ bin/
 
 # macOS
 *.DS_Store
+
+# personal publish script while Drone is fucked
+private-publish.sh

@@ -9,6 +9,12 @@ import java.util.function.BiConsumer;
 import gay.lemmaeof.aleph.Aleph;
 import gay.lemmaeof.aleph.one.annotate.RegisteredAs;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.potion.Potion;
+import net.minecraft.sound.SoundEvent;
 import nilloader.api.NilMetadata;
 import nilloader.api.NilModList;
 
@@ -22,12 +28,36 @@ public class AutoRegistry {
 		autoRegister(Registry.BLOCK, "blocks", Block.class);
 	}
 
+	public static void registerBlockEntities() {
+		autoRegister(Registry.BLOCK_ENTITY_TYPE, "block-entities", BlockEntityType.class);
+	}
+
+	public static void registerEnchantments() {
+		autoRegister(Registry.ENCHANTMENT, "enchantments", Enchantment.class);
+	}
+
+	public static void registerEntities() {
+		autoRegister(Registry.ENTITY_TYPE, "entities", EntityType.class);
+	}
+
+	public static void registerFluids() {
+		autoRegister(Registry.FLUID, "fluids", Fluid.class);
+	}
+
 	public static void registerItems() {
 		autoRegister(Registry.ITEM, "items", Item.class);
 	}
 
-	public static void registerBlockEntities() {
-		autoRegister(Registry.BLOCK_ENTITY_TYPE, "blockentities", BlockEntityType.class);
+	public static void registerPotions() {
+		autoRegister(Registry.POTION, "potions", Potion.class);
+	}
+
+	public static void registerSoundEvents() {
+		autoRegister(Registry.SOUND_EVENT, "sound-events", SoundEvent.class);
+	}
+
+	public static void registerStatusEffects() {
+		autoRegister(Registry.STATUS_EFFECT, "status-effects", StatusEffect.class);
 	}
 
 	@SuppressWarnings("unchecked")

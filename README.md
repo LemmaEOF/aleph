@@ -24,12 +24,22 @@ Current Aleph:One features:
     - Block color providers implemented on the block
     - Block color providers annotated by `@ConstantColor`
     - Block color providers annotated by `@ColorProvider`
+  - Block entities, via the `block-entities` entrypoint
+    - Block entity renderers annotated by `@Renderer`
+    - **DISCLAIMER**: As of 1.18.2, an interface needed for constructing block entities is package-private.
+      Aleph does not currently provide any solution for this, but may in the future.
+  - Enchantments, via the `enchantments` entrypoint
+  - Entities, via the `entities` entrypoint
+    - Entity renderers annotated by `@Renderer`
+  - Fluids, via the `fluids` entrypoint
+    - Fluid render layers annotated by `@RenderLayer`
   - Items, via the `items` entrypoint
     - Item color providers implemented on the item
     - Item color providers annotated with `@ConstantColor`
     - Item color providers annotated with `@ColorProvider`
-  - Block entities, via the `blockentities` entrypoint
-    - Block entity renderers annotated by `@Renderer`
+  - Potions, via the `potions` entrypoint
+  - Sound events, via the `sound-events` entrypoint
+  - Status effects, via the `status-effects` entrypoint
 
 ## Using Aleph
 As Aleph:Null doesn't need to be called from other nilmods, it can just be dropped in the `nilmods` or `mods` directory

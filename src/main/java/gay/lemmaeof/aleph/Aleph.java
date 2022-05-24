@@ -19,9 +19,16 @@ public class Aleph implements Runnable {
 		ClassTransformer.register(new BlockEntityRendererFactoriesTransformer());
 		ClassTransformer.register(new BlockEntityTypeTransformer());
 		ClassTransformer.register(new BlocksTransformer());
+		ClassTransformer.register(new EnchantmentsTransformer());
+		ClassTransformer.register(new EntityRenderersTransformer());
+		ClassTransformer.register(new EntityTypeTransformer());
+		ClassTransformer.register(new FluidsTransformer());
 		ClassTransformer.register(new ItemColorsTransformer());
 		ClassTransformer.register(new ItemsTransformer());
+		ClassTransformer.register(new PotionsTransformer());
 		ClassTransformer.register(new RenderLayersTransformer());
+		ClassTransformer.register(new SoundEventsTransformer());
+		ClassTransformer.register(new StatusEffectsTransformer());
 	}
 	
 }
