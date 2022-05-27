@@ -1,3 +1,5 @@
+<img src="aleph.svg" width="180px" align="right"/>
+
 # Aleph
 *\~the API lib that should have never been\~*
 
