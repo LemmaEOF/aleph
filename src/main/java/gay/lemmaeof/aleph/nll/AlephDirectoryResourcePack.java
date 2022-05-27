@@ -2,6 +2,7 @@ package gay.lemmaeof.aleph.nll;
 
 import net.minecraft.resource.pack.DirectoryResourcePack;
 import net.minecraft.resource.pack.metadata.PackResourceMetadata;
+import net.minecraft.resource.pack.metadata.PackResourceMetadataReader;
 import net.minecraft.resource.pack.metadata.ResourceMetadataReader;
 import net.minecraft.text.LiteralText;
 import nilloader.api.NilMetadata;
@@ -19,6 +20,10 @@ public class AlephDirectoryResourcePack extends DirectoryResourcePack {
 
 	@Override
 	public <T> T parseMetadata(ResourceMetadataReader<T> reader) throws IOException {
-		return (T) new PackResourceMetadata(new LiteralText(meta.description), 8);
+		if (containsFile("pack.mcmeta")) return super.parseMetadata(reader);
+		if (reader instanceof PackResourceMetadataReader) {
+			return (T) new PackResourceMetadata(new LiteralText(meta.description), 8);
+		}
+		return null;
 	}
 }

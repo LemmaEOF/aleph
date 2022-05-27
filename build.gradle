@@ -1,5 +1,5 @@
 plugins {
-	id 'com.unascribed.nilgradle' version '1.3.0'
+	id 'com.unascribed.nilgradle' version '1.3.2'
 	id 'maven-publish'
 }
 
@@ -49,6 +49,7 @@ dependencies {
 	game nil.minecraft('1.18.2', 'client')
 
 	implementation 'com.mojang:datafixerupper:4.1.27'
+	implementation 'com.mojang:brigadier:1.0.18'
 }
 
 mappings {
