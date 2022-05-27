@@ -4,6 +4,8 @@ import gay.lemmaeof.aleph.nll.transformer.ResourcePackManagerTransformer;
 import gay.lemmaeof.aleph.one.transformer.*;
 import nilloader.api.ClassTransformer;
 import nilloader.api.NilLogger;
+import nilloader.api.NilMetadata;
+import nilloader.api.NilModList;
 
 public class Aleph implements Runnable {
 
@@ -14,21 +16,47 @@ public class Aleph implements Runnable {
 		//Aleph:Null transformers
 		ClassTransformer.register(new ResourcePackManagerTransformer());
 
-		//Aleph:One transformers
-		ClassTransformer.register(new BlockColorsTransformer());
-		ClassTransformer.register(new BlockEntityRendererFactoriesTransformer());
-		ClassTransformer.register(new BlockEntityTypeTransformer());
-		ClassTransformer.register(new BlocksTransformer());
-		ClassTransformer.register(new EnchantmentsTransformer());
-		ClassTransformer.register(new EntityRenderersTransformer());
-		ClassTransformer.register(new EntityTypeTransformer());
-		ClassTransformer.register(new FluidsTransformer());
-		ClassTransformer.register(new ItemColorsTransformer());
-		ClassTransformer.register(new ItemsTransformer());
-		ClassTransformer.register(new PotionsTransformer());
-		ClassTransformer.register(new RenderLayersTransformer());
-		ClassTransformer.register(new SoundEventsTransformer());
-		ClassTransformer.register(new StatusEffectsTransformer());
+		//Aleph:One transformers (oh god)
+		if (shouldTransform("blocks")) {
+			ClassTransformer.register(new BlockColorsTransformer()); //block colors
+			ClassTransformer.register(new BlocksTransformer()); //blocks themselves
+			ClassTransformer.register(new BlockRenderLayersTransformer()); //block render layers
+		}
+		if (shouldTransform("block-entities")) {
+			ClassTransformer.register(new BlockEntityRendererFactoriesTransformer()); //block entity renderers
+			ClassTransformer.register(new BlockEntityTypeTransformer()); //block entity types
+		}
+		if (shouldTransform("enchantments")) ClassTransformer.register(new EnchantmentsTransformer());
+		if (shouldTransform("entities")) {
+			ClassTransformer.register(new EntityRenderersTransformer()); //entity renderers
+			ClassTransformer.register(new EntityTypeTransformer()); //entity types
+		}
+		if (shouldTransform("fluids")) {
+			ClassTransformer.register(new FluidRenderLayersTransformer()); //fluid render layers
+			ClassTransformer.register(new FluidsTransformer()); //fluids themselves
+		}
+		if (shouldTransform("items")) {
+			ClassTransformer.register(new AbstractFurnaceBlockEntityTransformer()); //fuel times
+			ClassTransformer.register(new ComposterBlockTransformer()); //composting chances
+			ClassTransformer.register(new ItemColorsTransformer()); //item colors
+			ClassTransformer.register(new ItemsTransformer()); //items themselves
+		}
+		if (shouldTransform("potions")) ClassTransformer.register(new PotionsTransformer());
+		if (shouldTransform("recipe-serializers")) ClassTransformer.register(new RecipeSerializerTransformer());
+		if (shouldTransform("recipe-types")) ClassTransformer.register(new RecipeTypeTransformer());
+		if (shouldTransform("screen-handlers")) {
+			ClassTransformer.register(new HandledScreensTransformer()); //client-side handled screens
+			ClassTransformer.register(new ScreenHandlerTypeTransformer()); //screen handlers
+		}
+		if (shouldTransform("sound-events")) ClassTransformer.register(new SoundEventsTransformer());
+		if (shouldTransform("stats")) ClassTransformer.register(new StatsTransformer());
+		if (shouldTransform("status-effects")) ClassTransformer.register(new StatusEffectsTransformer());
 	}
-	
+
+	private boolean shouldTransform(String entrypointName) {
+		for (NilMetadata meta : NilModList.getAll()) {
+			if (meta.entrypoints.containsKey(entrypointName)) return true;
+		}
+		return false;
+	}
 }

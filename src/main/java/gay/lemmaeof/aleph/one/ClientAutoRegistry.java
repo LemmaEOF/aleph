@@ -1,8 +1,10 @@
 package gay.lemmaeof.aleph.one;
 
+import com.google.common.eventbus.EventBus;
 import gay.lemmaeof.aleph.one.annotate.ColorProvider;
 import gay.lemmaeof.aleph.one.annotate.ConstantColor;
 import gay.lemmaeof.aleph.one.annotate.Renderer;
+import gay.lemmaeof.aleph.one.annotate.Screen;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -10,6 +12,8 @@ import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -17,12 +21,17 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.text.Text;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -119,6 +128,41 @@ public class ClientAutoRegistry extends AutoRegistry {
 					if (ann != null) {
 						if (!renderLayers.containsKey(ann.value())) throw new RuntimeException(meta.id+":"+f.getName().toLowerCase(Locale.ROOT)+" has an unknown @RenderLayer: "+ann.value());
 						map.put(b, renderLayers.get(ann.value()));
+					}
+				})
+		);
+	}
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public void registerHandledScreens() {
+		eachEntrypoint("screen-handlers",
+				(meta, holder) -> eachRegisterableField(holder, ScreenHandlerType.class, Screen.class, (f, type, ann) -> {
+					if (ann != null) {
+						try {
+							Constructor<?> actualConstructor = null;
+							for (Constructor<?> cons : ann.value().getConstructors()) {
+								if (cons.getParameterCount() == 3 && ScreenHandler.class.isAssignableFrom(cons.getParameterTypes()[0])) {
+									actualConstructor = cons;
+								}
+							}
+							if (actualConstructor == null) throw new RuntimeException(ann.value().getSimpleName()+" does not have a normal constructor");
+							MethodHandle handle = MethodHandles.publicLookup().unreflectConstructor(actualConstructor);
+							// must be an anonymous class due to type unsafety; we need the rawtype
+							HandledScreens.register(type, new HandledScreens.Provider() {
+								@Override
+								public HandledScreen create(ScreenHandler handler, PlayerInventory inventory, Text title) {
+									try {
+										return (HandledScreen)handle.invoke(handler, inventory, title);
+									} catch (RuntimeException | Error e) {
+										throw e;
+									} catch (Throwable e) {
+										throw new RuntimeException(e);
+									}
+								}
+							});
+						} catch (Exception e) {
+							throw new RuntimeException(e);
+						}
 					}
 				})
 		);

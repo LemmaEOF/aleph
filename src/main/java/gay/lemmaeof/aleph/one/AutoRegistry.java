@@ -4,17 +4,31 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Locale;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
+import com.google.common.collect.ImmutableMap;
 import gay.lemmaeof.aleph.Aleph;
+import gay.lemmaeof.aleph.one.annotate.Compost;
+import gay.lemmaeof.aleph.one.annotate.FormattedAs;
+import gay.lemmaeof.aleph.one.annotate.Fuel;
 import gay.lemmaeof.aleph.one.annotate.RegisteredAs;
+import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.potion.Potion;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.stat.StatFormatter;
+import net.minecraft.stat.StatType;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.Identifier;
 import nilloader.api.NilMetadata;
 import nilloader.api.NilModList;
 
@@ -44,6 +58,26 @@ public class AutoRegistry {
 		autoRegister(Registry.FLUID, "fluids", Fluid.class);
 	}
 
+	public static void registerItemComposts(Object2FloatMap<ItemConvertible> map) {
+		eachEntrypoint("items",
+				(meta, holder) -> eachRegisterableField(holder, Item.class, Compost.class, (f, i, ann) -> {
+					if (ann != null) {
+						map.put(i, ann.value());
+					}
+				})
+		);
+	}
+
+	public static void registerItemFuels(Map<Item, Integer> map) {
+		eachEntrypoint("items",
+				(meta, holder) -> eachRegisterableField(holder, Item.class, Fuel.class, (f, i, ann) -> {
+					if (ann != null) {
+						map.put(i, ann.value());
+					}
+				})
+		);
+	}
+
 	public static void registerItems() {
 		autoRegister(Registry.ITEM, "items", Item.class);
 	}
@@ -52,8 +86,41 @@ public class AutoRegistry {
 		autoRegister(Registry.POTION, "potions", Potion.class);
 	}
 
+	public static void registerRecipeSerializers() {
+		autoRegister(Registry.RECIPE_SERIALIZER, "recipe-serializers", RecipeSerializer.class);
+	}
+
+	public static void registerRecipeTypes() {
+		autoRegister(Registry.RECIPE_TYPE, "recipe-types", RecipeType.class);
+	}
+
+	public static void registerScreenHandlers() {
+		autoRegister(Registry.SCREEN_HANDLER, "screen-handlers", ScreenHandlerType.class);
+	}
+
 	public static void registerSoundEvents() {
 		autoRegister(Registry.SOUND_EVENT, "sound-events", SoundEvent.class);
+	}
+
+	public static void registerStats() {
+		ImmutableMap<String, StatFormatter> formattersByName = ImmutableMap.of(
+				"default", StatFormatter.DEFAULT,
+				"divide_by_ten", StatFormatter.DIVIDE_BY_TEN,
+				"distance", StatFormatter.DISTANCE,
+				"time", StatFormatter.TIME
+		);
+		autoRegister(Registry.STAT_TYPE, "stats", StatType.class); //will anyone use this?
+		autoRegister(Registry.CUSTOM_STAT, "stats", Identifier.class);
+		//TODO: formatters stuff
+		eachEntrypoint("stats",
+				(meta, holder) -> eachRegisterableField(holder, Identifier.class, FormattedAs.class, (f, id, ann) -> {
+					String formatter = "default";
+					if (ann != null) {
+						formatter = ann.value();
+					}
+					Stats.CUSTOM.getOrCreateStat(id, formattersByName.getOrDefault(formatter, StatFormatter.DEFAULT));
+				})
+		);
 	}
 
 	public static void registerStatusEffects() {

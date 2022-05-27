@@ -18,7 +18,8 @@ Current Aleph:One features:
 - **Auto-registration** - Simply place objects in public/static/final fields in a `Runnable` class and add them as a
     specific entrypoint, and Aleph will automagically register them for you! The registry identifier can be set with the 
     annotation `@RegisteredAs`, and after all contents for an entrypoint are registered, the `Runnable` for the 
-    entrypoint will be fired. This currently supports:
+    entrypoint will be fired. For sanity's sake, each hook will only be loaded if a nilmod calls for it to be used.
+    This currently supports:
   - Blocks, via the `blocks` entrypoint
     - Block render layers annotated by `@RenderLayer`
     - Block color providers implemented on the block
@@ -26,8 +27,6 @@ Current Aleph:One features:
     - Block color providers annotated by `@ColorProvider`
   - Block entities, via the `block-entities` entrypoint
     - Block entity renderers annotated by `@Renderer`
-    - **DISCLAIMER**: As of 1.18.2, an interface needed for constructing block entities is package-private.
-      Aleph does not currently provide any solution for this, but may in the future.
   - Enchantments, via the `enchantments` entrypoint
   - Entities, via the `entities` entrypoint
     - Entity renderers annotated by `@Renderer`
@@ -37,8 +36,16 @@ Current Aleph:One features:
     - Item color providers implemented on the item
     - Item color providers annotated with `@ConstantColor`
     - Item color providers annotated with `@ColorProvider`
+    - Fuel times annotated with `@Fuel`
+    - Compost chances annotated with `@Compost`
   - Potions, via the `potions` entrypoint
+  - Recipe serializers, via the `recipe-serializers` entrypoint
+  - Recipe types, via the `recipe-types` entrypoint
+  - Screen handlers, via the `screen-handlers` entrypoint
+    - Handled screens annotated by `@Screen`
   - Sound events, via the `sound-events` entrypoint
+  - Stats, via the `stats` entrypoint
+    - Stat formatters annotated by `@FormattedAs`
   - Status effects, via the `status-effects` entrypoint
 
 ## Using Aleph
