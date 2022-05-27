@@ -1,8 +1,12 @@
 package gay.lemmaeof.aleph;
 
+import gay.lemmaeof.aleph.nll.transformer.ClientBrandRetrieverTransformer;
+import gay.lemmaeof.aleph.nll.transformer.PackScreenTransformer;
 import gay.lemmaeof.aleph.nll.transformer.ResourcePackManagerTransformer;
+import gay.lemmaeof.aleph.nll.transformer.TitleScreenTransformer;
 import gay.lemmaeof.aleph.one.transformer.*;
 import nilloader.api.ClassTransformer;
+import nilloader.api.ModRemapper;
 import nilloader.api.NilLogger;
 import nilloader.api.NilMetadata;
 import nilloader.api.NilModList;
@@ -13,8 +17,17 @@ public class Aleph implements Runnable {
 
 	@Override
 	public void run() {
+		try {
+			Class.forName("net.fabricmc.loader.api.FabricLoader", false, Aleph.class.getClassLoader());
+			ModRemapper.setTargetMapping("net.fabricmc.intermediary-1.18.2");
+		} catch (Throwable t) {
+		}
+		
 		//Aleph:Null transformers
 		ClassTransformer.register(new ResourcePackManagerTransformer());
+		ClassTransformer.register(new TitleScreenTransformer());
+		ClassTransformer.register(new ClientBrandRetrieverTransformer());
+		ClassTransformer.register(new PackScreenTransformer());
 
 		//Aleph:One transformers (oh god)
 		if (shouldTransform("blocks")) {

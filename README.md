@@ -15,6 +15,8 @@ Current Aleph:Null features:
 - **Resource pack loading** - Any nilmod (either as a jar or directory) will have its `resources/assets` and
 `resources/data` source folders loaded as resource or data packs, respectively.
   - A `pack.mcmeta` is not required - NilLoader will generate one from the mod's `nilmod.css`
+- **Mod menu** - The Minecraft Realms button is replaced with a Nilmods button.
+- **Client brand** - The client brand is updated to "nil".
 
 Current Aleph:One features:
 - **Auto-registration** - Simply place objects in public/static/final fields in a `Runnable` class and add them as a

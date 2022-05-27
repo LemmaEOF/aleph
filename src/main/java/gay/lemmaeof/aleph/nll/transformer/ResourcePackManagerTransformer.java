@@ -16,7 +16,7 @@ public class ResourcePackManagerTransformer extends MiniTransformer {
 		).jumpBefore();
 		ctx.add(
 				ALOAD(2),
-				INVOKESTATIC("gay/lemmaeof/aleph/AlephPackProvider", "appendNilPacks", "([Lnet/minecraft/resource/pack/ResourcePackProvider)[Lnet/minecraft/resource/pack/ResourcePackProvider"),
+				INVOKESTATIC("gay/lemmaeof/aleph/nll/AlephPackProvider", "appendNilPacks", "([Lnet/minecraft/resource/pack/ResourcePackProvider;)[Lnet/minecraft/resource/pack/ResourcePackProvider;"),
 				ASTORE(2)
 		);
 	}
