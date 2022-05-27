@@ -23,16 +23,22 @@ import nilloader.api.NilMetadata;
 import nilloader.api.NilModList;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+
+import com.google.common.hash.Hashing;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.MultilineText;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget.Entry;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.StringVisitable;
 import net.minecraft.util.Language;
+import net.minecraft.util.math.MathHelper;
 
 public class AlephModsScreen extends Screen {
 
@@ -72,10 +78,7 @@ public class AlephModsScreen extends Screen {
 					icons.put(meta.id, id);
 				} catch (IOException e) {
 					Aleph.log.warn("Failed to load icon for {}", meta.name, e);
-					icons.put(meta.id, UNKNOWN_PACK);
 				}
-			} else {
-				icons.put(meta.id, UNKNOWN_PACK);
 			}
 		}
 	}
@@ -147,15 +150,34 @@ public class AlephModsScreen extends Screen {
 
 		@Override
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-			RenderSystem.enableBlend();
-			RenderSystem.defaultBlendFunc();
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-			RenderSystem.setShaderTexture(0, icons.get(meta.id));
-			RenderSystem.setShaderColor(1, 1, 1, 1);
-			DrawableHelper.drawTexture(matrices, x, y, 0, 0, 32, 32, 32, 32);
+			if (icons.containsKey(meta.id)) {
+				RenderSystem.enableBlend();
+				RenderSystem.defaultBlendFunc();
+				RenderSystem.setShader(GameRenderer::getPositionTexShader);
+				RenderSystem.setShaderTexture(0, icons.get(meta.id));
+				RenderSystem.setShaderColor(1, 1, 1, 1);
+				DrawableHelper.drawTexture(matrices, x, y, 0, 0, 32, 32, 32, 32);
+				RenderSystem.disableBlend();
+			} else {
+				RenderSystem.setShader(GameRenderer::getPositionShader);
+				int hash = Hashing.murmur3_32_fixed(9435867).hashUnencodedChars(meta.name).asInt();
+				float hue = Math.abs(hash%360)/360f;
+				float sat = (Math.abs((hash/360)%40)+60)/100f;
+				int rgb = MathHelper.hsvToRgb(hue, sat, 1);
+				DrawableHelper.fill(matrices.peek().getModel(), x, y, x+32, y+32, rgb|0xFF000000);
+				matrices.push();
+					matrices.translate(x+16, y+16, 0);
+					matrices.scale(2, 2, 1);
+					String first = meta.name.substring(0, Math.min(2, meta.name.length()));
+					int w = textRenderer.getWidth(first);
+					int h = textRenderer.fontHeight-2;
+					VertexConsumerProvider.Immediate imm = client.getBufferBuilders().effectVertexConsumers;
+					textRenderer.drawWithOutline(new LiteralText(first).asOrderedText(), -w/2f, -h/2f, 0xFFFFFFFF, 0xFF000000, matrices.peek().getModel(), imm, LightmapTextureManager.MAX_LIGHT_COORDINATE);
+					imm.draw();
+				matrices.pop();
+			}
 			client.textRenderer.drawWithShadow(matrices, displayName, x + 32 + 2, y + 1, 16777215);
 			description.drawWithShadow(matrices, x + 32 + 2, y + 12, 10, 8421504);
-			RenderSystem.disableBlend();
 		}
 	}
 
