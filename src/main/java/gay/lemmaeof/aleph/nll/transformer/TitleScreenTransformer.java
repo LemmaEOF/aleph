@@ -27,6 +27,7 @@ public class TitleScreenTransformer extends MiniTransformer {
 	}
 	
 	@Patch.Method("switchToRealms()V")
+	@Patch.Method.AffectsControlFlow
 	public void patchSwitchToRealms(PatchContext ctx) {
 		ctx.jumpToStart();
 		ctx.add(
