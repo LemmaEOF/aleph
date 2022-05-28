@@ -36,6 +36,7 @@ public class ClientBrandRetrieverTransformer extends MiniTransformer {
 	
 	public static class Hooks {
 		public static String modifyBrand(String brand) {
+			if (brand.contains("nil")) return brand;
 			if ("vanilla".equals(brand)) return "nil";
 			return brand+",nil";
 		}

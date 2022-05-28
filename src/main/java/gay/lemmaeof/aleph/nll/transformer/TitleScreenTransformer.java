@@ -1,5 +1,9 @@
 package gay.lemmaeof.aleph.nll.transformer;
 
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.text.TranslatableText;
 import nilloader.api.lib.mini.MiniTransformer;
 import nilloader.api.lib.mini.PatchContext;
 import nilloader.api.lib.mini.annotation.Patch;
@@ -17,12 +21,14 @@ public class TitleScreenTransformer extends MiniTransformer {
 		);
 	}
 	
-	@Patch.Method("initWidgetsNormal(II)V")
-	public void patchInitWidgetsNormal(PatchContext ctx) {
-		ctx.search(LDC("menu.online")).jumpAfter();
+	@Patch.Method("render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V")
+	public void patchRender(PatchContext ctx) {
+		// we do it here for compatibility with other changes to the minecraft title screen that use
+		// the realms button as an anchor (e.g. Fabric ModMenu)
+		ctx.jumpToStart();
 		ctx.add(
-			POP(),
-			LDC("menu.aleph.mods")
+			ALOAD(0),
+			INVOKESTATIC("gay/lemmaeof/aleph/nll/transformer/TitleScreenTransformer$Hooks", "fixRealmsButton", "(Lnet/minecraft/client/gui/screen/TitleScreen;)V")
 		);
 	}
 	
@@ -40,6 +46,16 @@ public class TitleScreenTransformer extends MiniTransformer {
 			INVOKEVIRTUAL("net/minecraft/client/MinecraftClient", "setScreen", "(Lnet/minecraft/client/gui/screen/Screen;)V"),
 			RETURN()
 		);
+	}
+	
+	public static class Hooks {
+		public static void fixRealmsButton(TitleScreen screen) {
+			for (Element e : screen.children()) {
+				if (e instanceof ButtonWidget b && b.getMessage() instanceof TranslatableText trans && trans.getKey().equals("menu.online")) {
+					b.setMessage(new TranslatableText("menu.aleph.mods"));
+				}
+			}
+		}
 	}
 	
 }
