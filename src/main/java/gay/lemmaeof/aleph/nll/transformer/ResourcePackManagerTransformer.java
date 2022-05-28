@@ -9,15 +9,11 @@ public class ResourcePackManagerTransformer extends MiniTransformer {
 
 	@Patch.Method("<init>(Lnet/minecraft/resource/pack/ResourcePackProfile$Factory;[Lnet/minecraft/resource/pack/ResourcePackProvider;)V")
 	public void patchPackProviderAddition(PatchContext ctx) {
-		ctx.search(
-				ALOAD(0),
-				ALOAD(2),
-				INVOKESTATIC("com/google/common/collect/ImmutableSet", "copyOf", "([Ljava/lang/Object;)Lcom/google/common/collect/ImmutableSet;")
-		).jumpBefore();
+		ctx.jumpToStart();
 		ctx.add(
-				ALOAD(2),
-				INVOKESTATIC("gay/lemmaeof/aleph/nll/AlephPackProvider", "appendNilPacks", "([Lnet/minecraft/resource/pack/ResourcePackProvider;)[Lnet/minecraft/resource/pack/ResourcePackProvider;"),
-				ASTORE(2)
+			ALOAD(2),
+			INVOKESTATIC("gay/lemmaeof/aleph/nll/AlephPackProvider", "appendNilPacks", "([Lnet/minecraft/resource/pack/ResourcePackProvider;)[Lnet/minecraft/resource/pack/ResourcePackProvider;"),
+			ASTORE(2)
 		);
 	}
 
