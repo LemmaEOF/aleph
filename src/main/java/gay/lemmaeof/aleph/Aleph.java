@@ -17,12 +17,13 @@ public class Aleph implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			Class.forName("net.fabricmc.loader.api.FabricLoader", false, Aleph.class.getClassLoader());
-			ModRemapper.setTargetMapping("net.fabricmc.intermediary-1.18.2");
-		} catch (Throwable t) {
+		//TODO: eventually Quilt (hashed)
+		if (tryRemap("net.fabric.intermediary-1.18.2", "net.fabricmc.loader.api.FabricLoader")) {
+			log.info("Loading Aleph alongside Fabric or Quilt beta!");
+		} else if (tryRemap("com.mojang.launcher.client-a661c6a55a0600bd391bdbbd6827654c05b2109c", "net.minecraft.forge.common.MinecraftForge")) {
+			log.info("Loading Aleph alongside Forge!");
 		}
-		
+
 		//Aleph:Null transformers
 		ClassTransformer.register(new ResourcePackManagerTransformer());
 		ClassTransformer.register(new TitleScreenTransformer());
@@ -64,6 +65,16 @@ public class Aleph implements Runnable {
 		if (shouldTransform("sound-events")) ClassTransformer.register(new SoundEventsTransformer());
 		if (shouldTransform("stats")) ClassTransformer.register(new StatsTransformer());
 		if (shouldTransform("status-effects")) ClassTransformer.register(new StatusEffectsTransformer());
+	}
+
+	private boolean tryRemap(String target, String smokeTest) {
+		try {
+			Class.forName(smokeTest, false, Aleph.class.getClassLoader());
+			ModRemapper.setTargetMapping(target);
+			return true;
+		} catch (Throwable t) {
+			return false;
+		}
 	}
 
 	private boolean shouldTransform(String entrypointName) {
