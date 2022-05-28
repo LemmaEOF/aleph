@@ -18,9 +18,9 @@ public class Aleph implements Runnable {
 	@Override
 	public void run() {
 		//TODO: eventually Quilt (hashed)
-		if (tryRemap("net.fabric.intermediary-1.18.2", "net.fabricmc.loader.api.FabricLoader")) {
+		if (tryRemap("net.fabricmc.loader.api.FabricLoader", "net.fabricmc.intermediary-1.18.2")) {
 			log.info("Loading Aleph alongside Fabric or Quilt beta!");
-		} else if (tryRemap("com.mojang.launcher.client-a661c6a55a0600bd391bdbbd6827654c05b2109c", "net.minecraft.forge.common.MinecraftForge")) {
+		} else if (tryRemap("cpw.mods.modlauncher.Launcher", "nilgradle.dynamic.frankenmapping-com.mojang.launcher.client-a661c6a55a0600bd391bdbbd6827654c05b2109cxde.oceanlabs.mcp.mcp_config-1.18.2-v2-")) {
 			log.info("Loading Aleph alongside Forge!");
 		}
 
@@ -67,12 +67,12 @@ public class Aleph implements Runnable {
 		if (shouldTransform("status-effects")) ClassTransformer.register(new StatusEffectsTransformer());
 	}
 
-	private boolean tryRemap(String target, String smokeTest) {
+	private boolean tryRemap(String smokeTest, String target) {
 		try {
 			Class.forName(smokeTest, false, Aleph.class.getClassLoader());
 			ModRemapper.setTargetMapping(target);
 			return true;
-		} catch (Throwable t) {
+		} catch (ClassNotFoundException t) {
 			return false;
 		}
 	}

@@ -28,6 +28,9 @@ public class AlephPackProvider implements ResourcePackProvider {
 	@Override
 	public void register(Consumer<ResourcePackProfile> consumer, ResourcePackProfile.Factory factory) {
 		int addedPacks = 0;
+		if (NilModList.getAll().isEmpty()) {
+			Aleph.log.warn("No NilMetadata available! Classloading nightmares?");
+		}
 		for (NilMetadata mod : NilModList.getAll()) {
 			var source = mod.source;
 			Supplier<ResourcePack> packSupplier;
