@@ -9,7 +9,6 @@ import nilloader.api.NilMetadata;
 import nilloader.api.NilModList;
 
 public class Aleph implements Runnable {
-
 	public static final NilLogger log = NilLogger.get("Aleph");
 
 	@Override

@@ -18,7 +18,6 @@ import java.util.function.Supplier;
 import java.util.zip.ZipFile;
 
 public class AlephPackProvider implements ResourcePackProvider {
-	
 	public static final ResourcePackSource SOURCE = ResourcePackSource.nameAndSource("pack.source.nilmod");
 	
 	public static ResourcePackProvider[] appendNilPacks(ResourcePackProvider[] oldPacks) {

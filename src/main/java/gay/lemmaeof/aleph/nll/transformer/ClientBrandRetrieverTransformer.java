@@ -8,7 +8,6 @@ import nilloader.api.lib.mini.exception.PointerOutOfBoundsException;
 
 @Patch.Class("net.minecraft.client.ClientBrandRetriever")
 public class ClientBrandRetrieverTransformer extends MiniTransformer {
-
 	@Patch.Method("getClientModName()Ljava/lang/String;")
 	@Patch.Method.Optional
 	@Patch.Method.AffectsControlFlow
@@ -44,5 +43,4 @@ public class ClientBrandRetrieverTransformer extends MiniTransformer {
 			return brand+",nil";
 		}
 	}
-	
 }

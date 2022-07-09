@@ -11,7 +11,6 @@ import nilloader.api.lib.mini.annotation.Patch;
 
 @Patch.Class("net.minecraft.client.gui.screen.TitleScreen")
 public class TitleScreenTransformer extends MiniTransformer {
-	
 	@Patch.Method("areRealmsNotificationsEnabled()Z")
 	@Patch.Method.AffectsControlFlow
 	public void patchAreRealmsNotificationsEnabled(PatchContext ctx) {
@@ -58,5 +57,4 @@ public class TitleScreenTransformer extends MiniTransformer {
 			}
 		}
 	}
-	
 }

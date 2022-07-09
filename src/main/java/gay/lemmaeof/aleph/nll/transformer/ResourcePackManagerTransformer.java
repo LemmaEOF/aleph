@@ -6,7 +6,6 @@ import nilloader.api.lib.mini.annotation.Patch;
 
 @Patch.Class("net.minecraft.resource.pack.ResourcePackManager")
 public class ResourcePackManagerTransformer extends MiniTransformer {
-
 	@Patch.Method("<init>(Lnet/minecraft/resource/pack/ResourcePackProfile$Factory;[Lnet/minecraft/resource/pack/ResourcePackProvider;)V")
 	public void patchPackProviderAddition(PatchContext ctx) {
 		ctx.jumpToStart();
@@ -16,5 +15,4 @@ public class ResourcePackManagerTransformer extends MiniTransformer {
 			ASTORE(2)
 		);
 	}
-
 }

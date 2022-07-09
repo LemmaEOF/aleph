@@ -10,7 +10,6 @@ import nilloader.api.lib.mini.annotation.Patch;
 
 @Patch.Class("net.minecraft.client.gui.screen.pack.PackScreen")
 public class PackScreenTransformer extends MiniTransformer {
-
 	@Patch.Method("updatePackList(Lnet/minecraft/client/gui/screen/pack/PackListWidget;Ljava/util/stream/Stream;)V")
 	public void patchUpdatePackList(PatchContext ctx) {
 		ctx.jumpToStart();
@@ -33,5 +32,4 @@ public class PackScreenTransformer extends MiniTransformer {
 		}
 		
 	}
-	
 }

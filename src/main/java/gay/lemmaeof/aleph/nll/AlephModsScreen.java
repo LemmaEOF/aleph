@@ -39,7 +39,6 @@ import net.minecraft.util.Language;
 import net.minecraft.util.math.MathHelper;
 
 public class AlephModsScreen extends Screen {
-
 	private static final Identifier UNKNOWN_PACK = new Identifier("textures/misc/unknown_pack.png");
 
 	private final Screen parent;
@@ -179,6 +178,4 @@ public class AlephModsScreen extends Screen {
 			description.drawWithShadow(matrices, x + 32 + 2, y + 12, 10, 8421504);
 		}
 	}
-
-
 }
