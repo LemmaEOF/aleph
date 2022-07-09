@@ -11,13 +11,15 @@ public class ClientBrandRetrieverTransformer extends MiniTransformer {
 
 	@Patch.Method("getClientModName()Ljava/lang/String;")
 	@Patch.Method.Optional
+	@Patch.Method.AffectsControlFlow
 	public void patchGetClientModName(PatchContext ctx) {
 		while (true) {
 			SearchResult res = ctx.search(ARETURN());
 			if (!res.isSuccessful()) return;
 			res.jumpBefore();
 			ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/nll/transformer/ClientBrandRetrieverTransformer$Hooks", "modifyBrand", "(Ljava/lang/String;)Ljava/lang/String;")
+				INVOKESTATIC("gay/lemmaeof/aleph/nll/transformer/ClientBrandRetrieverTransformer$Hooks", "modifyBrand", "(Ljava/lang/String;)Ljava/lang/String;"),
+				ARETURN()
 			);
 			try {
 				res.jumpAfter();
@@ -29,6 +31,7 @@ public class ClientBrandRetrieverTransformer extends MiniTransformer {
 	
 	@Patch.Method("m_129629_()Ljava/lang/String;") // Forge weirdness - this method is supposed to be deobf
 	@Patch.Method.Optional
+	@Patch.Method.AffectsControlFlow
 	public void patchGetClientModNameForge(PatchContext ctx) {
 		patchGetClientModName(ctx);
 	}
@@ -36,7 +39,7 @@ public class ClientBrandRetrieverTransformer extends MiniTransformer {
 	
 	public static class Hooks {
 		public static String modifyBrand(String brand) {
-			if (brand.contains("nil")) return brand;
+			if ("nil".equals(brand) || brand.contains(",nil")) return brand;
 			if ("vanilla".equals(brand)) return "nil";
 			return brand+",nil";
 		}

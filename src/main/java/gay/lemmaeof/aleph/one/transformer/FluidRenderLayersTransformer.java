@@ -11,7 +11,7 @@ public class FluidRenderLayersTransformer extends MiniTransformer {
 		ctx.jumpToLastReturn();
 		ctx.add(
 				GETSTATIC("net/minecraft/client/render/RenderLayers", "FLUIDS", "()Lnet/java/util/Map;"),
-				INVOKESTATIC("gay/lemmaeof/aleph/ClientAutoRegistry", "registerFluidRenderLayers", "(Lnet/java/util/Map;)V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerFluidRenderLayers", "(Lnet/java/util/Map;)V")
 		);
 	}
 }

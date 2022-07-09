@@ -1,7 +1,5 @@
 package gay.lemmaeof.aleph.one.annotate;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -13,7 +11,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface Screen {
 	/**
 	 * Used to mark and specify a handled screen for a screen handler.
+	 * THIS CLASS MUST EXTEND `HandledScreen`. THAT IS NOT ENFORCED HERE DUE TO MAPPINGS IN DEV. BE CAREFUL.
 	 * @return The class for the handled screen associated with the screen handler.
 	 */
-	Class<? extends HandledScreen<?>> value();
+	Class<?> value();
 }

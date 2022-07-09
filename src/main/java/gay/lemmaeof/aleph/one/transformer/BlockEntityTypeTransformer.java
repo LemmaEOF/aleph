@@ -10,7 +10,7 @@ public class BlockEntityTypeTransformer extends MiniTransformer {
 	public void hookBlockEntityTypes(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerBlockEntities", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerBlockEntities", "()V")
 		);
 		ctx.addFireEntrypoint("blockentitites");
 	}

@@ -11,7 +11,7 @@ public class EntityRenderersTransformer extends MiniTransformer {
 		ctx.jumpToLastReturn();
 		ctx.add(
 				GETSTATIC("net/minecraft/client/render/entity/EntityRenderers", "RENDERER_FACTORIES", "()Ljava/util/Map;"),
-				INVOKESTATIC("gay/lemmaeof/aleph/ClientAutoRegistry", "registerEntityRenderers", "(Ljava/util/Map;)V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerEntityRenderers", "(Ljava/util/Map;)V")
 		);
 	}
 }

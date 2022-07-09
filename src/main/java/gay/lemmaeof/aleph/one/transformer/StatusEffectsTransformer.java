@@ -10,7 +10,7 @@ public class StatusEffectsTransformer extends MiniTransformer {
 	public void hookStatusEffects(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerStatusEffects", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerStatusEffects", "()V")
 		);
 		ctx.addFireEntrypoint("status-effects");
 	}

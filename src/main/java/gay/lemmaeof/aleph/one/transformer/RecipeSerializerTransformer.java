@@ -10,7 +10,7 @@ public class RecipeSerializerTransformer extends MiniTransformer {
 	public void hookRecipeSerializers(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerRecipeSerializers", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerRecipeSerializers", "()V")
 		);
 		ctx.addFireEntrypoint("recipe-serializers");
 	}

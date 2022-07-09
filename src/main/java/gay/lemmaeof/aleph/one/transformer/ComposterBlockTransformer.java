@@ -11,7 +11,7 @@ public class ComposterBlockTransformer extends MiniTransformer {
 		ctx.jumpToLastReturn();
 		ctx.add(
 				GETSTATIC("net/minecraft/block/ComposterBlock", "ITEM_TO_LEVEL_INCREASE_CHANCE", "()Lit/unimi/dsi/fastutil/objects/Object2FloatMap;"),
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerItemComposts", "(Lit/unimi/dsi/fastutil/objects/Object2FloatMap;)V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerItemComposts", "(Lit/unimi/dsi/fastutil/objects/Object2FloatMap;)V")
 		);
 	}
 }

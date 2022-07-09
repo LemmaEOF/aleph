@@ -13,7 +13,7 @@ public class FluidsTransformer extends MiniTransformer {
 				INVOKEVIRTUAL("net/minecraft/util/registry/DefaultedRegistry", "iterator", "()Ljava/util/Iterator;")
 		).jumpBefore();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerFluids", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerFluids", "()V")
 		);
 		ctx.addFireEntrypoint("fluids");
 	}

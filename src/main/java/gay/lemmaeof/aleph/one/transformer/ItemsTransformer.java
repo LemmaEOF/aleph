@@ -10,7 +10,7 @@ public class ItemsTransformer extends MiniTransformer {
 	public void hookItems(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerItems", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerItems", "()V")
 		);
 		ctx.addFireEntrypoint("items");
 	}

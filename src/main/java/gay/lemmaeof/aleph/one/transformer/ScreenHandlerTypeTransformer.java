@@ -10,7 +10,7 @@ public class ScreenHandlerTypeTransformer extends MiniTransformer {
 	public void hookScreenHandlers(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerScreenHandlers", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerScreenHandlers", "()V")
 		);
 		ctx.addFireEntrypoint("screen-handlers");
 	}

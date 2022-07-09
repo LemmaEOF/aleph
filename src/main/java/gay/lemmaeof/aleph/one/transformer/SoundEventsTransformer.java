@@ -10,7 +10,7 @@ public class SoundEventsTransformer extends MiniTransformer {
 	public void hookSoundEvents(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerSoundEvents", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerSoundEvents", "()V")
 		);
 		ctx.addFireEntrypoint("sound-events");
 	}

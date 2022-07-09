@@ -14,7 +14,7 @@ public class BlockColorsTransformer extends MiniTransformer {
 		).jumpBefore();
 		ctx.add(
 				ALOAD(0),
-				INVOKESTATIC("gay/lemmaeof/aleph/ClientAutoRegistry", "registerBlockColorProviders", "(Lnet/minecraft/color/block/BlockColors;)V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerBlockColorProviders", "(Lnet/minecraft/color/block/BlockColors;)V")
 		);
 	}
 }

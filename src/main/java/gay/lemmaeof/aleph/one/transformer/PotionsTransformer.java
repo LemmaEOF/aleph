@@ -10,7 +10,7 @@ public class PotionsTransformer extends MiniTransformer {
 	public void hookPotions(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerPotions", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerPotions", "()V")
 		);
 		ctx.addFireEntrypoint("potions");
 

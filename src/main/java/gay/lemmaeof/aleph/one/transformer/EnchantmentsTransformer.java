@@ -10,7 +10,7 @@ public class EnchantmentsTransformer extends MiniTransformer {
 	public void hookEnchantments(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerEnchantments", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerEnchantments", "()V")
 		);
 		ctx.addFireEntrypoint("enchantments");
 	}

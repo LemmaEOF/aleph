@@ -16,7 +16,7 @@ Current Aleph:Null features:
 `resources/data` source folders loaded as resource or data packs, respectively.
   - A `pack.mcmeta` is not required - NilLoader will generate one from the mod's `nilmod.css`
 - **Mod menu** - The Minecraft Realms button is replaced with a Nilmods button.
-- **Client brand** - The client brand is updated to "nil".
+- **Client brand** - The client brand is updated to "nil", or "&lt;other brand&gt;,nil" if another loader is present.
 
 Current Aleph:One features:
 - **Auto-registration** - Simply place objects in public/static/final fields in a `Runnable` class and add them as a
@@ -36,6 +36,7 @@ Current Aleph:One features:
     - Entity renderers annotated by `@Renderer`
   - Fluids, via the `fluids` entrypoint
     - Fluid render layers annotated by `@RenderLayer`
+  - Game events, via the `game-events` entrypoint
   - Items, via the `items` entrypoint
     - Item color providers implemented on the item
     - Item color providers annotated with `@ConstantColor`

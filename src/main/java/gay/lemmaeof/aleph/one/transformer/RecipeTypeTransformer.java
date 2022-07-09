@@ -10,7 +10,7 @@ public class RecipeTypeTransformer extends MiniTransformer {
 	public void hookRecipeTypes(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerRecipeTypes", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerRecipeTypes", "()V")
 		);
 		ctx.addFireEntrypoint("recipe-types");
 	}

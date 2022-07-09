@@ -1,6 +1,5 @@
 package gay.lemmaeof.aleph.one;
 
-import com.google.common.eventbus.EventBus;
 import gay.lemmaeof.aleph.one.annotate.ColorProvider;
 import gay.lemmaeof.aleph.one.annotate.ConstantColor;
 import gay.lemmaeof.aleph.one.annotate.Renderer;
@@ -139,6 +138,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 				(meta, holder) -> eachRegisterableField(holder, ScreenHandlerType.class, Screen.class, (f, type, ann) -> {
 					if (ann != null) {
 						try {
+							if (!ann.value().isAssignableFrom(HandledScreen.class)) throw new RuntimeException(ann.value().getSimpleName()+" does not extend HandledScreen");
 							Constructor<?> actualConstructor = null;
 							for (Constructor<?> cons : ann.value().getConstructors()) {
 								if (cons.getParameterCount() == 3 && ScreenHandler.class.isAssignableFrom(cons.getParameterTypes()[0])) {

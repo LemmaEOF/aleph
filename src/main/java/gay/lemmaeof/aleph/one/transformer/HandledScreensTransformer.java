@@ -10,7 +10,7 @@ public class HandledScreensTransformer extends MiniTransformer {
 	public void hookHandledScreens(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/ClientAutoRegistry", "registerHandledScreens", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerHandledScreens", "()V")
 		);
 	}
 }

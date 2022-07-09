@@ -14,7 +14,7 @@ public class ItemColorsTransformer extends MiniTransformer {
 		).jumpBefore();
 		ctx.add(
 				ALOAD(0),
-				INVOKESTATIC("gay/lemmaeof/aleph/ClientAutoRegistry", "registerItemColorProviders", "(Lnet/minecraft/color/item/ItemColors;)V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerItemColorProviders", "(Lnet/minecraft/color/item/ItemColors;)V")
 		);
 	}
 }

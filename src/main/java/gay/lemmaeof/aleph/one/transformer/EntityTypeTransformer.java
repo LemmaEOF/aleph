@@ -10,7 +10,7 @@ public class EntityTypeTransformer extends MiniTransformer {
 	public void hookEntityTypes(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerEntities", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerEntities", "()V")
 		);
 		ctx.addFireEntrypoint("entitites");
 	}

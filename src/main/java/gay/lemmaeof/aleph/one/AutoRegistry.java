@@ -29,6 +29,7 @@ import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.StatType;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.event.GameEvent;
 import nilloader.api.NilMetadata;
 import nilloader.api.NilModList;
 
@@ -56,6 +57,10 @@ public class AutoRegistry {
 
 	public static void registerFluids() {
 		autoRegister(Registry.FLUID, "fluids", Fluid.class);
+	}
+
+	public static void registerGameEvents() {
+		autoRegister(Registry.GAME_EVENT, "game-events", GameEvent.class);
 	}
 
 	public static void registerItemComposts(Object2FloatMap<ItemConvertible> map) {

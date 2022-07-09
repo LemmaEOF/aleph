@@ -7,16 +7,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.mojang.blaze3d.texture.NativeImage;
+import com.mojang.blaze3d.vertex.Tessellator;
 import gay.lemmaeof.aleph.Aleph;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.ScreenTexts;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import nilloader.api.NilMetadata;
@@ -33,7 +32,6 @@ import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget.Entry;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
-import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.StringVisitable;
@@ -49,19 +47,19 @@ public class AlephModsScreen extends Screen {
 	private ModListWidget modsList;
 
 	public AlephModsScreen(Screen parent) {
-		super(new TranslatableText("menu.aleph.mods"));
+		super(Text.translatable("menu.aleph.mods"));
 		this.parent = parent;
 	}
 
 	@Override
-	public void onClose() {
+	public void closeScreen() {
 		client.setScreen(parent);
 	}
 
 	@Override
 	public void init() {
-		addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 25, 200, 20, ScreenTexts.DONE, btn -> onClose()));
-		modsList = new ModListWidget(this.client, this.width, this.height, new LiteralText(""));
+		addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 25, 200, 20, ScreenTexts.DONE, btn -> closeScreen()));
+		modsList = new ModListWidget(this.client, this.width, this.height, Text.literal(""));
 		modsList.setLeftPos(0);
 		addSelectableChild(this.modsList);
 		modsList.clearEntries();
@@ -104,7 +102,7 @@ public class AlephModsScreen extends Screen {
 
 		@Override
 		public void renderHeader(MatrixStack matrices, int x, int y, Tessellator tess) {
-			Text header = (new LiteralText("")).append(this.title).formatted(Formatting.UNDERLINE, Formatting.BOLD);
+			Text header = (Text.literal("")).append(this.title).formatted(Formatting.UNDERLINE, Formatting.BOLD);
 			this.client.textRenderer.draw(matrices, header, x + this.width / 2 - this.client.textRenderer.getWidth(header) / 2, Math.min(this.top + 3, y), 0xFFFFFF);
 		}
 
@@ -126,8 +124,8 @@ public class AlephModsScreen extends Screen {
 
 		public NilMetadataEntry(NilMetadata meta) {
 			this.meta = meta;
-			this.displayName = trimTextToWidth(client, new LiteralText(meta.name).append(new LiteralText(" by "+meta.authors).formatted(Formatting.GRAY)));
-			this.description = createMultilineText(client, new LiteralText(meta.description).formatted(Formatting.DARK_GRAY));
+			this.displayName = trimTextToWidth(client, Text.literal(meta.name).append(Text.literal(" by "+meta.authors).formatted(Formatting.GRAY)));
+			this.description = createMultilineText(client, Text.literal(meta.description).formatted(Formatting.DARK_GRAY));
 		}
 
 		private OrderedText trimTextToWidth(MinecraftClient client, Text text) {
@@ -145,11 +143,12 @@ public class AlephModsScreen extends Screen {
 
 		@Override
 		public Text getNarration() {
-			return new TranslatableText("narrator.select", this.meta.name+" by "+this.meta.authors);
+			return Text.translatable("narrator.select", this.meta.name+" by "+this.meta.authors);
 		}
 
 		@Override
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+			x += 20;
 			if (icons.containsKey(meta.id)) {
 				RenderSystem.enableBlend();
 				RenderSystem.defaultBlendFunc();
@@ -164,7 +163,7 @@ public class AlephModsScreen extends Screen {
 				float hue = Math.abs(hash%360)/360f;
 				float sat = (Math.abs((hash/360)%40)+60)/100f;
 				int rgb = MathHelper.hsvToRgb(hue, sat, 1);
-				DrawableHelper.fill(matrices.peek().getModel(), x, y, x+32, y+32, rgb|0xFF000000);
+				DrawableHelper.fill(matrices.peek().getPosition(), x, y, x+32, y+32, rgb|0xFF000000);
 				matrices.push();
 					matrices.translate(x+16, y+16, 0);
 					matrices.scale(2, 2, 1);
@@ -172,7 +171,7 @@ public class AlephModsScreen extends Screen {
 					int w = textRenderer.getWidth(first);
 					int h = textRenderer.fontHeight-2;
 					VertexConsumerProvider.Immediate imm = client.getBufferBuilders().effectVertexConsumers;
-					textRenderer.drawWithOutline(new LiteralText(first).asOrderedText(), -w/2f, -h/2f, 0xFFFFFFFF, 0xFF000000, matrices.peek().getModel(), imm, LightmapTextureManager.MAX_LIGHT_COORDINATE);
+					textRenderer.drawWithOutline(Text.literal(first).asOrderedText(), -w/2f, -h/2f, 0xFFFFFFFF, 0xFF000000, matrices.peek().getPosition(), imm, LightmapTextureManager.MAX_LIGHT_COORDINATE);
 					imm.draw();
 				matrices.pop();
 			}

@@ -5,6 +5,8 @@ import net.minecraft.resource.pack.ResourcePack;
 import net.minecraft.resource.pack.ResourcePackProfile;
 import net.minecraft.resource.pack.ResourcePackProvider;
 import net.minecraft.resource.pack.ResourcePackSource;
+import net.minecraft.resource.pack.metadata.PackResourceMetadata;
+import net.minecraft.text.Text;
 import nilloader.api.NilMetadata;
 import nilloader.api.NilModList;
 
@@ -62,5 +64,12 @@ public class AlephPackProvider implements ResourcePackProvider {
 			addedPacks++;
 		}
 		Aleph.log.info("Added {} pack{}", addedPacks, addedPacks == 1 ? "" : "s");
+	}
+
+	public static class NilResourceMetadata extends PackResourceMetadata {
+		public NilResourceMetadata(Text description) {
+			//format doesn't matter - we bypass
+			super(description, 9);
+		}
 	}
 }

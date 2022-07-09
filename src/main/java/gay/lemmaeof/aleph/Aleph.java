@@ -1,9 +1,6 @@
 package gay.lemmaeof.aleph;
 
-import gay.lemmaeof.aleph.nll.transformer.ClientBrandRetrieverTransformer;
-import gay.lemmaeof.aleph.nll.transformer.PackScreenTransformer;
-import gay.lemmaeof.aleph.nll.transformer.ResourcePackManagerTransformer;
-import gay.lemmaeof.aleph.nll.transformer.TitleScreenTransformer;
+import gay.lemmaeof.aleph.nll.transformer.*;
 import gay.lemmaeof.aleph.one.transformer.*;
 import nilloader.api.ClassTransformer;
 import nilloader.api.ModRemapper;
@@ -18,17 +15,18 @@ public class Aleph implements Runnable {
 	@Override
 	public void run() {
 		//TODO: eventually Quilt (hashed)
-		if (tryRemap("net.fabricmc.loader.api.FabricLoader", "net.fabricmc.intermediary-1.18.2")) {
+		if (tryRemap("net.fabricmc.loader.api.FabricLoader", "net.fabricmc.intermediary-1.19")) {
 			log.info("Loading Aleph alongside Fabric or Quilt beta!");
-		} else if (tryRemap("cpw.mods.modlauncher.Launcher", "nilgradle.dynamic.frankenmapping-com.mojang.launcher.client-a661c6a55a0600bd391bdbbd6827654c05b2109cxde.oceanlabs.mcp.mcp_config-1.18.2-v2-")) {
+		} else if (tryRemap("cpw.mods.modlauncher.Launcher", "nilgradle.dynamic.frankenmapping-com.mojang.launcher.client-150346d1c0b4acec0b4eb7f58b86e3ea1aa730f3xde.oceanlabs.mcp.mcp_config-1.19-v2-")) {
 			log.info("Loading Aleph alongside Forge!");
 		}
 
 		//Aleph:Null transformers
-		ClassTransformer.register(new ResourcePackManagerTransformer());
-		ClassTransformer.register(new TitleScreenTransformer());
 		ClassTransformer.register(new ClientBrandRetrieverTransformer());
 		ClassTransformer.register(new PackScreenTransformer());
+		ClassTransformer.register(new ResourcePackCompatibilityTransformer());
+		ClassTransformer.register(new ResourcePackManagerTransformer());
+		ClassTransformer.register(new TitleScreenTransformer());
 
 		//Aleph:One transformers (oh god)
 		if (shouldTransform("blocks")) {
@@ -49,6 +47,7 @@ public class Aleph implements Runnable {
 			ClassTransformer.register(new FluidRenderLayersTransformer()); //fluid render layers
 			ClassTransformer.register(new FluidsTransformer()); //fluids themselves
 		}
+		if (shouldTransform("game-events")) ClassTransformer.register(new GameEventTransformer());
 		if (shouldTransform("items")) {
 			ClassTransformer.register(new AbstractFurnaceBlockEntityTransformer()); //fuel times
 			ClassTransformer.register(new ComposterBlockTransformer()); //composting chances

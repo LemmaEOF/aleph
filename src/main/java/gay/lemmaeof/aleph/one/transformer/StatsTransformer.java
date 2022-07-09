@@ -10,7 +10,7 @@ public class StatsTransformer extends MiniTransformer {
 	public void hookStats(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerStats", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerStats", "()V")
 		);
 		ctx.addFireEntrypoint("stats");
 	}

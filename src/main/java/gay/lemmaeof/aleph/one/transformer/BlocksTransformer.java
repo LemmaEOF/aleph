@@ -13,7 +13,7 @@ public class BlocksTransformer extends MiniTransformer {
 				INVOKEVIRTUAL("net/minecraft/util/registry/DefaultedRegistry", "iterator", "()Ljava/util/Iterator;")
 		).jumpBefore();
 		ctx.add(
-				INVOKESTATIC("gay/lemmaeof/aleph/AutoRegistry", "registerBlocks", "()V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/AutoRegistry", "registerBlocks", "()V")
 		);
 		ctx.addFireEntrypoint("blocks");
 	}
