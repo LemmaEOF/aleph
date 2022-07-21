@@ -76,9 +76,10 @@ public class Aleph implements Runnable {
 	}
 
 	private boolean shouldTransform(String entrypointName) {
-		for (NilMetadata meta : NilModList.getAll()) {
-			if (meta.entrypoints.containsKey(entrypointName)) return true;
-		}
-		return false;
+		return true;
+//		for (NilMetadata meta : NilModList.getAll()) {
+//			if (meta.entrypoints.containsKey(entrypointName)) return true;
+//		}
+//		return false;
 	}
 }

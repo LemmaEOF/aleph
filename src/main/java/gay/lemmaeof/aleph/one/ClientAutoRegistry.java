@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class ClientAutoRegistry extends AutoRegistry {
 
-	public void registerBlockColorProviders(BlockColors colors) {
+	public static void registerBlockColorProviders(BlockColors colors) {
 		eachEntrypoint("blocks",
 				(meta, holder) -> eachRegisterableField(holder, Block.class, null, (f, b, ann) -> {
 					if (b instanceof BlockColorProvider) colors.registerColorProvider((BlockColorProvider)b, b);
@@ -55,7 +55,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 		);
 	}
 
-	public void registerBlockRenderLayers(Map<Block, RenderLayer> map) {
+	public static void registerBlockRenderLayers(Map<Block, RenderLayer> map) {
 		Map<String, RenderLayer> renderLayers = new HashMap<>();
 		renderLayers.put("cutout", RenderLayer.getCutout());
 		renderLayers.put("cutout_mipped", RenderLayer.getCutoutMipped());
@@ -72,7 +72,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void registerBlockEntityRenderers(Map<BlockEntityType<?>, BlockEntityRendererFactory<?>> map) {
+	public static void registerBlockEntityRenderers(Map<BlockEntityType<?>, BlockEntityRendererFactory<?>> map) {
 		eachEntrypoint("block-entities",
 				(meta, holder) -> eachRegisterableField(holder, BlockEntityType.class, Renderer.class, (f, type, ann) -> {
 					if (ann != null) {
@@ -96,7 +96,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void registerEntityRenderers(Map<EntityType<?>, EntityRendererFactory<?>> map) {
+	public static void registerEntityRenderers(Map<EntityType<?>, EntityRendererFactory<?>> map) {
 		eachEntrypoint("entities",
 				(meta, holder) -> eachRegisterableField(holder, EntityType.class, Renderer.class, (f, type, ann) -> {
 					if (ann != null) {
@@ -119,7 +119,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 		);
 	}
 
-	public void registerFluidRenderLayers(Map<Fluid, RenderLayer> map) {
+	public static void registerFluidRenderLayers(Map<Fluid, RenderLayer> map) {
 		Map<String, RenderLayer> renderLayers = new HashMap<>();
 		renderLayers.put("translucent", RenderLayer.getTranslucent());
 		eachEntrypoint("fluids",
@@ -133,7 +133,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public void registerHandledScreens() {
+	public static void registerHandledScreens() {
 		eachEntrypoint("screen-handlers",
 				(meta, holder) -> eachRegisterableField(holder, ScreenHandlerType.class, Screen.class, (f, type, ann) -> {
 					if (ann != null) {
@@ -168,7 +168,7 @@ public class ClientAutoRegistry extends AutoRegistry {
 		);
 	}
 
-	public void registerItemColorProviders(ItemColors colors) {
+	public static void registerItemColorProviders(ItemColors colors) {
 		eachEntrypoint("items",
 				(meta, holder) -> eachRegisterableField(holder, Item.class, null, (f, i, ann) -> {
 					if (i instanceof ItemColorProvider) colors.register((ItemColorProvider)i, i);

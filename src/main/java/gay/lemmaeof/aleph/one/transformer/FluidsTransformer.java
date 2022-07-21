@@ -8,6 +8,7 @@ import nilloader.api.lib.mini.annotation.Patch;
 public class FluidsTransformer extends MiniTransformer {
 	@Patch.Method("<clinit>()V")
 	public void hookFluids(PatchContext ctx) {
+		ctx.jumpToStart();
 		ctx.search(
 				GETSTATIC("net/minecraft/util/Registry", "FLUID", "Lnet/minecraft/util/registry/DefaultedRegistry;"),
 				INVOKEVIRTUAL("net/minecraft/util/registry/DefaultedRegistry", "iterator", "()Ljava/util/Iterator;")

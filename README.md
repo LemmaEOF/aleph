@@ -22,8 +22,8 @@ Current Aleph:One features:
 - **Auto-registration** - Simply place objects in public/static/final fields in a `Runnable` class and add them as a
     specific entrypoint, and Aleph will automagically register them for you! The registry identifier can be set with the 
     annotation `@RegisteredAs`, and after all contents for an entrypoint are registered, the `Runnable` for the 
-    entrypoint will be fired. For sanity's sake, each hook will only be loaded if a nilmod calls for it to be used.
-    This currently supports:
+    entrypoint will be fired. All registerable fields are registered in alphabetical order. For sanity's sake, each hook
+    will only be loaded if a nilmod calls for it to be used. This currently supports:
   - Blocks, via the `blocks` entrypoint
     - Block render layers annotated by `@RenderLayer`
     - Block color providers implemented on the block

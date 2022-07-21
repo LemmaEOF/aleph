@@ -8,6 +8,7 @@ import nilloader.api.lib.mini.annotation.Patch;
 public class BlocksTransformer extends MiniTransformer {
 	@Patch.Method("<clinit>()V")
 	public void hookBlocks(PatchContext ctx) {
+		ctx.jumpToStart();
 		ctx.search(
 				GETSTATIC("net/minecraft/util/Registry", "BLOCK", "Lnet/minecraft/util/registry/DefaultedRegistry;"),
 				INVOKEVIRTUAL("net/minecraft/util/registry/DefaultedRegistry", "iterator", "()Ljava/util/Iterator;")

@@ -3,8 +3,7 @@ package gay.lemmaeof.aleph.one;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 import com.google.common.collect.ImmutableMap;
@@ -116,7 +115,6 @@ public class AutoRegistry {
 		);
 		autoRegister(Registry.STAT_TYPE, "stats", StatType.class); //will anyone use this?
 		autoRegister(Registry.CUSTOM_STAT, "stats", Identifier.class);
-		//TODO: formatters stuff
 		eachEntrypoint("stats",
 				(meta, holder) -> eachRegisterableField(holder, Identifier.class, FormattedAs.class, (f, id, ann) -> {
 					String formatter = "default";
@@ -152,14 +150,17 @@ public class AutoRegistry {
 	}
 
 	protected static void eachEntrypoint(String entrypointName, BiConsumer<NilMetadata, Class<?>> cb) {
-		for (NilMetadata meta : NilModList.getAll()) {
+		//sort nilmods alphabetically for determinism
+		List<NilMetadata> metas = NilModList.getAll();
+		metas.sort(Comparator.comparing(meta -> meta.id));
+		for (NilMetadata meta : metas) {
 			String className = meta.entrypoints.get(entrypointName);
 			if (className != null) {
 				try {
 					Class<?> holder = Class.forName(className);
 					if (!Runnable.class.isAssignableFrom(holder)) {
 						Aleph.log.error("Error in auto-register process: nilmod {} gives class {} for {}, but that's not Runnable!", meta.id, className, entrypointName);
-						Aleph.log.error("This is a sanity-check due to some of the ways that NilLoader works. Apologies");
+						Aleph.log.error("This is required due to NilLoader structure and registration entrypoints.");
 						continue;
 					}
 					cb.accept(meta, holder);
@@ -172,6 +173,14 @@ public class AutoRegistry {
 
 	@SuppressWarnings("unchecked")
 	protected static <T, A extends Annotation> void eachRegisterableField(Class<?> holder, Class<T> type, Class<A> anno, TriConsumer<Field, T, A> cb) {
+		//sort fields alphabetically for determinism
+		/*
+		I *really* wish I could order these by position in the original class, but...
+		> The elements in the returned array are not sorted and are not in any particular order.
+		`Field.slot` is also impl-defined so thoroughly useless :(
+		 */
+		List<Field> fields = new ArrayList<>(List.of(holder.getDeclaredFields()));
+		fields.sort(Comparator.comparing(Field::getName));
 		for (Field f : holder.getDeclaredFields()) {
 			if (type.isAssignableFrom(f.getType()) && Modifier.isStatic(f.getModifiers()) && !Modifier.isTransient(f.getModifiers())) {
 				try {
