@@ -10,11 +10,11 @@ public class BlockColorsTransformer extends MiniTransformer {
 	public void hookBlockColorProviders(PatchContext ctx) {
 		ctx.search(
 				ALOAD(0),
-				RETURN()
+				ARETURN()
 		).jumpBefore();
 		ctx.add(
 				ALOAD(0),
-				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerBlockColorProviders", "(Lnet/minecraft/color/block/BlockColors;)V")
+				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerBlockColorProviders", "(Lnet/minecraft/client/color/block/BlockColors;)V")
 		);
 	}
 }

@@ -10,7 +10,7 @@ public class BlocksTransformer extends MiniTransformer {
 	public void hookBlocks(PatchContext ctx) {
 		ctx.jumpToStart();
 		ctx.search(
-				GETSTATIC("net/minecraft/util/Registry", "BLOCK", "Lnet/minecraft/util/registry/DefaultedRegistry;"),
+				GETSTATIC("net/minecraft/util/registry/Registry", "BLOCK", "Lnet/minecraft/util/registry/DefaultedRegistry;"),
 				INVOKEVIRTUAL("net/minecraft/util/registry/DefaultedRegistry", "iterator", "()Ljava/util/Iterator;")
 		).jumpBefore();
 		ctx.add(

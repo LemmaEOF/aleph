@@ -10,7 +10,7 @@ public class FluidsTransformer extends MiniTransformer {
 	public void hookFluids(PatchContext ctx) {
 		ctx.jumpToStart();
 		ctx.search(
-				GETSTATIC("net/minecraft/util/Registry", "FLUID", "Lnet/minecraft/util/registry/DefaultedRegistry;"),
+				GETSTATIC("net/minecraft/util/registry/Registry", "FLUID", "Lnet/minecraft/util/registry/DefaultedRegistry;"),
 				INVOKEVIRTUAL("net/minecraft/util/registry/DefaultedRegistry", "iterator", "()Ljava/util/Iterator;")
 		).jumpBefore();
 		ctx.add(
