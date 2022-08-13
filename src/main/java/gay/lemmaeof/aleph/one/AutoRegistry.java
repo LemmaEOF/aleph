@@ -173,14 +173,6 @@ public class AutoRegistry {
 
 	@SuppressWarnings("unchecked")
 	protected static <T, A extends Annotation> void eachRegisterableField(Class<?> holder, Class<T> type, Class<A> anno, TriConsumer<Field, T, A> cb) {
-		//sort fields alphabetically for determinism
-		/*
-		I *really* wish I could order these by position in the original class, but...
-		> The elements in the returned array are not sorted and are not in any particular order.
-		`Field.slot` is also impl-defined so thoroughly useless :(
-		 */
-		List<Field> fields = new ArrayList<>(List.of(holder.getDeclaredFields()));
-		fields.sort(Comparator.comparing(Field::getName));
 		for (Field f : holder.getDeclaredFields()) {
 			if (type.isAssignableFrom(f.getType()) && Modifier.isStatic(f.getModifiers()) && !Modifier.isTransient(f.getModifiers())) {
 				try {

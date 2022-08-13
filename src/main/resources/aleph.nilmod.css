@@ -8,4 +8,5 @@
 /*noinspection ALL*/
 entrypoints {
 	premain: "gay.lemmaeof.aleph.Aleph";
+	hijack: "gay.lemmaeof.aleph.Aleph"; /*hijack _should_ be fine to run at the same point*/
 }
