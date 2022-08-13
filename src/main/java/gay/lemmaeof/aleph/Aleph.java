@@ -76,10 +76,18 @@ public class Aleph implements Runnable {
 	}
 
 	private boolean shouldTransform(String entrypointName) {
-		if (Boolean.getBoolean("aleph.entrypoint.all")) return true;
-		for (NilMetadata meta : NilModList.getAll()) {
-			if (meta.entrypoints.containsKey(entrypointName)) return true;
+		log.debug("Checking for {} entrypoint requests", entrypointName);
+		if (Boolean.getBoolean("aleph.entrypoint.all")) {
+			log.debug("Flag for all entrypoints is true, transforming");
+			return true;
 		}
+		for (NilMetadata meta : NilModList.getAll()) {
+			if (meta.entrypoints.containsKey(entrypointName)) {
+				log.debug("Entrypoint {} requested by {}, transforming");
+				return true;
+			}
+		}
+		log.debug("No mods request entrypoint {}, not transforming", entrypointName);
 		return false;
 	}
 }

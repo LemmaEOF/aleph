@@ -10,8 +10,8 @@ public class FluidRenderLayersTransformer extends MiniTransformer {
 	public void hookRenderLayers(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				GETSTATIC("net/minecraft/client/render/RenderLayers", "FLUIDS", "()Lnet/java/util/Map;"),
-				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerFluidRenderLayers", "(Lnet/java/util/Map;)V")
+				GETSTATIC("net/minecraft/client/render/RenderLayers", "FLUIDS", "()Ljava/util/Map;"),
+				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerFluidRenderLayers", "(Ljava/util/Map;)V")
 		);
 	}
 }

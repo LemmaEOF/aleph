@@ -63,9 +63,11 @@ public class AutoRegistry {
 	}
 
 	public static void registerItemComposts(Object2FloatMap<ItemConvertible> map) {
+		Aleph.log.debug("Auto-registering composting chances");
 		eachEntrypoint("items",
 				(meta, holder) -> eachRegisterableField(holder, Item.class, Compost.class, (f, i, ann) -> {
 					if (ann != null) {
+						Aleph.log.debug("Adding composting chance for {} field {} as {}", holder.getName(), f.getName(), ann.value());
 						map.put(i, ann.value());
 					}
 				})
@@ -73,9 +75,11 @@ public class AutoRegistry {
 	}
 
 	public static void registerItemFuels(Map<Item, Integer> map) {
+		Aleph.log.debug("Auto-registering item fuels");
 		eachEntrypoint("items",
 				(meta, holder) -> eachRegisterableField(holder, Item.class, Fuel.class, (f, i, ann) -> {
 					if (ann != null) {
+						Aleph.log.debug("Adding fuel time for {} field {} as {}", holder.getName(), f.getName(), ann.value());
 						map.put(i, ann.value());
 					}
 				})
@@ -132,8 +136,10 @@ public class AutoRegistry {
 
 	@SuppressWarnings("unchecked")
 	protected static <T> void autoRegister(Registry<T> registry, String entrypointName, Class<? super T> type) {
+		Aleph.log.debug("Auto-registering for {}", entrypointName);
 		eachEntrypoint(entrypointName,
 				(meta, holder) -> eachRegisterableField(holder, type, RegisteredAs.class, (f, v, ann) -> {
+					Aleph.log.debug("Found {} field {}, RegisteredAs annotation {}", holder.getName(), f.getName(), ann);
 					String id;
 					if (ann != null) {
 						if (ann.value().contains(":")) {
@@ -144,6 +150,7 @@ public class AutoRegistry {
 					} else {
 						id = meta.id+":"+f.getName().toLowerCase(Locale.ROOT);
 					}
+					Aleph.log.debug("Registering {} to registry {}", id, registry.registryKey.registry);
 					Registry.register(registry, id, (T)v);
 				})
 		);
