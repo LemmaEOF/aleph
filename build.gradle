@@ -52,20 +52,20 @@ nil {
 dependencies {
 	loader 'com.unascribed:nilloader:1.2.2'
 
-	game nil.minecraft('1.19', 'client')
+	game nil.minecraft('1.19.2', 'client')
 
 	implementation 'com.mojang:datafixerupper:4.1.27'
 	implementation 'com.mojang:brigadier:1.0.18'
 }
 
 mappings {
-	via 'org.quiltmc:hashed:1.19'
+	via 'org.quiltmc:hashed:1.19.2'
 
-	work 'org.quiltmc:quilt-mappings:1.19+build.1:v2'
+	work 'org.quiltmc:quilt-mappings:1.19.2+build.1:v2'
 
-	target 'net.fabricmc:intermediary:1.19:v2'
-	target nil.forgeFrankenmapping(nil.mojmap('1.19', 'client'), 'de.oceanlabs.mcp:mcp_config:1.19')
-	target nil.mojmap('1.19', 'client')
+	target 'net.fabricmc:intermediary:1.19.2:v2'
+	target nil.forgeFrankenmapping(nil.mojmap('1.19.2', 'client'), 'de.oceanlabs.mcp:mcp_config:1.19.2')
+	target nil.mojmap('1.19.2', 'client')
 }
 
 task sourcesJar(type: Jar) {

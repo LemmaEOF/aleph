@@ -14,9 +14,9 @@ public class Aleph implements Runnable {
 	@Override
 	public void run() {
 		//TODO: eventually Quilt (hashed)
-		if (tryRemap("net.fabricmc.loader.api.FabricLoader", "net.fabricmc.intermediary-1.19")) {
+		if (tryRemap("net.fabricmc.loader.api.FabricLoader", "net.fabricmc.intermediary-1.19.2")) {
 			log.info("Loading Aleph alongside Fabric or Quilt beta!");
-		} else if (tryRemap("cpw.mods.modlauncher.Launcher", "nilgradle.dynamic.frankenmapping-com.mojang.launcher.client-150346d1c0b4acec0b4eb7f58b86e3ea1aa730f3xde.oceanlabs.mcp.mcp_config-1.19-v2-")) {
+		} else if (tryRemap("cpw.mods.modlauncher.Launcher", "nilgradle.dynamic.frankenmapping-com.mojang.launcher.client-8e8c9be5dc27802caba47053d4fdea328f7f89bdxde.oceanlabs.mcp.mcp_config-1.19.2-v2-")) {
 			log.info("Loading Aleph alongside Forge!");
 		}
 
@@ -76,10 +76,10 @@ public class Aleph implements Runnable {
 	}
 
 	private boolean shouldTransform(String entrypointName) {
-		return true;
-//		for (NilMetadata meta : NilModList.getAll()) {
-//			if (meta.entrypoints.containsKey(entrypointName)) return true;
-//		}
-//		return false;
+		if (Boolean.getBoolean("aleph.entrypoint.all")) return true;
+		for (NilMetadata meta : NilModList.getAll()) {
+			if (meta.entrypoints.containsKey(entrypointName)) return true;
+		}
+		return false;
 	}
 }

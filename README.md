@@ -23,7 +23,8 @@ Current Aleph:One features:
     specific entrypoint, and Aleph will automagically register them for you! The registry identifier can be set with the 
     annotation `@RegisteredAs`, and after all contents for an entrypoint are registered, the `Runnable` for the 
     entrypoint will be fired. All registerable fields are registered in alphabetical order. For sanity's sake, each hook
-    will only be loaded if a nilmod calls for it to be used. This currently supports:
+    will only be loaded if a nilmod calls for it to be used. If you *really* want to make all hooks load no matter what, 
+    you can add `-Daleph.entrypoint.all=true` to your JVM args. This currently supports:
   - Blocks, via the `blocks` entrypoint
     - Block render layers annotated by `@RenderLayer`
     - Block color providers implemented on the block
