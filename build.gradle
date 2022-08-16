@@ -68,6 +68,15 @@ mappings {
 	target nil.mojmap('1.19.2', 'client')
 }
 
+processResources {
+	inputs.property "version", version
+
+	filesMatching('quilt.mod.json') {
+		expand "version": version
+	}
+}
+
+
 task sourcesJar(type: Jar) {
 	classifier 'sources'
 
