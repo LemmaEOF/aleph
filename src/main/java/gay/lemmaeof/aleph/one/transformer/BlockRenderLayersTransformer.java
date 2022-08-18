@@ -10,7 +10,7 @@ public class BlockRenderLayersTransformer extends MiniTransformer {
 	public void hookRenderLayers(PatchContext ctx) {
 		ctx.jumpToLastReturn();
 		ctx.add(
-				GETSTATIC("net/minecraft/client/render/RenderLayers", "BLOCKS", "()Ljava/util/Map;"),
+				GETSTATIC("net/minecraft/client/render/RenderLayers", "BLOCKS", "Ljava/util/Map;"),
 				INVOKESTATIC("gay/lemmaeof/aleph/one/ClientAutoRegistry", "registerBlockRenderLayers", "(Ljava/util/Map;)V")
 		);
 	}

@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+//TODO: runtime remapping for renderer annotations and such(?)
 public class ClientAutoRegistry extends AutoRegistry {
 
 	public static void registerBlockColorProviders(BlockColors colors) {
